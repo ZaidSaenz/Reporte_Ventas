@@ -3,19 +3,20 @@
 // ============================================================
 //
 // Este módulo:
-// - Guarda tienda, demo y región.
+// - Guarda tienda, demo, región, supervisor y horario.
 // - Agrupa las piezas vendidas por producto.
-// - Registra los canjes mediante un botón.
+// - Registra la cantidad de canjes.
+// - Permite describir libremente qué objetos se entregaron.
 // - Genera el texto listo para copiar.
 // - Conserva los datos aunque se cierre la página.
 //
 // ============================================================
 
 const CLAVE_DATOS_REPORTE =
-  "tuny_ancla_datos_reporte_v1";
+  "tuny_ancla_datos_reporte_v2";
 
 const CLAVE_CANJES_POR_DIA =
-  "tuny_ancla_canjes_por_dia_v1";
+  "tuny_ancla_canjes_por_dia_v2";
 
 
 const DIAS_SEMANA = [
@@ -51,7 +52,7 @@ const MESES = [
 
 function iniciarReporteWhatsapp() {
   cargarDatosGeneralesReporte();
-  actualizarContadorCanjes();
+  cargarCanjesDeHoy();
 
   document
     .querySelector("#input-tienda")
@@ -75,6 +76,20 @@ function iniciarReporteWhatsapp() {
     );
 
   document
+    .querySelector("#input-supervisor")
+    .addEventListener(
+      "input",
+      guardarDatosGeneralesDesdeFormulario
+    );
+
+  document
+    .querySelector("#input-horario")
+    .addEventListener(
+      "input",
+      guardarDatosGeneralesDesdeFormulario
+    );
+
+  document
     .querySelector("#btn-agregar-canje")
     .addEventListener(
       "click",
@@ -89,17 +104,17 @@ function iniciarReporteWhatsapp() {
     );
 
   document
+    .querySelector("#input-detalle-canjes")
+    .addEventListener(
+      "input",
+      guardarDetalleCanje
+    );
+
+  document
     .querySelector("#btn-copiar-reporte")
     .addEventListener(
       "click",
       copiarReporteWhatsapp
-    );
-
-  document
-    .querySelector("#input-horario")
-    .addEventListener(
-      "input",
-      guardarDatosGeneralesDesdeFormulario
     );
 
   actualizarReporteWhatsapp();
@@ -117,13 +132,16 @@ function obtenerDatosGeneralesReporte() {
       tienda: "",
       demo: "",
       region: "Tijuana B.C.",
+      supervisor: "",
       horario: ""
     }
   );
 }
 
 
-function guardarDatosGeneralesReporte(datos) {
+function guardarDatosGeneralesReporte(
+  datos
+) {
   return guardarJSON(
     CLAVE_DATOS_REPORTE,
     datos
@@ -151,6 +169,11 @@ function cargarDatosGeneralesReporte() {
       datos.region || "Tijuana B.C.";
 
   document
+    .querySelector("#input-supervisor")
+    .value =
+      datos.supervisor || "";
+
+  document
     .querySelector("#input-horario")
     .value =
       datos.horario || "";
@@ -176,13 +199,18 @@ function guardarDatosGeneralesDesdeFormulario() {
         .querySelector("#input-region")
         .value
         .trim(),
-    
+
+    supervisor:
+      document
+        .querySelector("#input-supervisor")
+        .value
+        .trim(),
+
     horario:
       document
         .querySelector("#input-horario")
         .value
         .trim()
-
   };
 
   guardarDatosGeneralesReporte(
@@ -196,8 +224,17 @@ function guardarDatosGeneralesDesdeFormulario() {
 // ============================================================
 // CANJES DEL DÍA
 // ============================================================
+//
+// El registro ahora contiene:
+//
+// {
+//   cantidad: 2,
+//   detalle: "1 Bowl\n1 pala de cocina"
+// }
+//
+// ============================================================
 
-function obtenerCantidadCanjesDeHoy() {
+function obtenerCanjesDeHoy() {
   const registros =
     leerJSON(
       CLAVE_CANJES_POR_DIA,
@@ -207,24 +244,48 @@ function obtenerCantidadCanjesDeHoy() {
   const claveFecha =
     obtenerClaveFechaLocal();
 
-  const cantidad =
-    Number(
-      registros[claveFecha]
-    );
+  const registro =
+    registros[
+      claveFecha
+    ];
 
   if (
-    !Number.isInteger(cantidad) ||
-    cantidad < 0
+    typeof registro !==
+    "object" ||
+    registro ===
+    null
   ) {
-    return 0;
+    return {
+      cantidad: 0,
+      detalle: ""
+    };
   }
 
-  return cantidad;
+  const cantidad =
+    Number(
+      registro.cantidad
+    );
+
+  return {
+    cantidad:
+      Number.isInteger(
+        cantidad
+      ) &&
+      cantidad >= 0
+        ? cantidad
+        : 0,
+
+    detalle:
+      typeof registro.detalle ===
+      "string"
+        ? registro.detalle
+        : ""
+  };
 }
 
 
-function guardarCantidadCanjesDeHoy(
-  cantidad
+function guardarCanjesDeHoy(
+  canjes
 ) {
   const registros =
     leerJSON(
@@ -235,8 +296,15 @@ function guardarCantidadCanjesDeHoy(
   const claveFecha =
     obtenerClaveFechaLocal();
 
-  registros[claveFecha] =
-    cantidad;
+  registros[
+    claveFecha
+  ] = {
+    cantidad:
+      canjes.cantidad,
+
+    detalle:
+      canjes.detalle
+  };
 
   return guardarJSON(
     CLAVE_CANJES_POR_DIA,
@@ -245,13 +313,36 @@ function guardarCantidadCanjesDeHoy(
 }
 
 
-function agregarCanje() {
-  const cantidadActual =
-    obtenerCantidadCanjesDeHoy();
+function cargarCanjesDeHoy() {
+  const canjes =
+    obtenerCanjesDeHoy();
 
-  guardarCantidadCanjesDeHoy(
-    cantidadActual + 1
-  );
+  document
+    .querySelector("#input-detalle-canjes")
+    .value =
+      canjes.detalle;
+
+  actualizarContadorCanjes();
+}
+
+
+function obtenerCantidadCanjesDeHoy() {
+  return obtenerCanjesDeHoy()
+    .cantidad;
+}
+
+
+function agregarCanje() {
+  const canjes =
+    obtenerCanjesDeHoy();
+
+  guardarCanjesDeHoy({
+    cantidad:
+      canjes.cantidad + 1,
+
+    detalle:
+      canjes.detalle
+  });
 
   actualizarContadorCanjes();
   actualizarReporteWhatsapp();
@@ -263,16 +354,23 @@ function agregarCanje() {
 
 
 function quitarCanje() {
-  const cantidadActual =
-    obtenerCantidadCanjesDeHoy();
+  const canjes =
+    obtenerCanjesDeHoy();
 
-  if (cantidadActual === 0) {
+  if (
+    canjes.cantidad ===
+    0
+  ) {
     return;
   }
 
-  guardarCantidadCanjesDeHoy(
-    cantidadActual - 1
-  );
+  guardarCanjesDeHoy({
+    cantidad:
+      canjes.cantidad - 1,
+
+    detalle:
+      canjes.detalle
+  });
 
   actualizarContadorCanjes();
   actualizarReporteWhatsapp();
@@ -283,6 +381,27 @@ function quitarCanje() {
 }
 
 
+function guardarDetalleCanje() {
+  const canjes =
+    obtenerCanjesDeHoy();
+
+  const detalle =
+    document
+      .querySelector("#input-detalle-canjes")
+      .value
+      .trim();
+
+  guardarCanjesDeHoy({
+    cantidad:
+      canjes.cantidad,
+
+    detalle
+  });
+
+  actualizarReporteWhatsapp();
+}
+
+
 function actualizarContadorCanjes() {
   const cantidad =
     obtenerCantidadCanjesDeHoy();
@@ -290,7 +409,9 @@ function actualizarContadorCanjes() {
   document
     .querySelector("#contador-canjes")
     .textContent =
-      String(cantidad);
+      String(
+        cantidad
+      );
 
   document
     .querySelector("#btn-quitar-canje")
@@ -325,31 +446,44 @@ function agruparProductosParaReporte(
   const agrupados =
     new Map();
 
-  ventas.forEach((venta) => {
-    venta.productos.forEach(
-      (item) => {
-        const cantidadAnterior =
-          agrupados.get(
-            item.producto
-          ) || 0;
+  ventas.forEach(
+    (
+      venta
+    ) => {
+      venta.productos
+        .forEach(
+          (
+            item
+          ) => {
+            const cantidadAnterior =
+              agrupados.get(
+                item.producto
+              ) || 0;
 
-        agrupados.set(
-          item.producto,
-          cantidadAnterior +
-          item.cantidad
+            agrupados.set(
+              item.producto,
+              cantidadAnterior +
+              item.cantidad
+            );
+          }
         );
-      }
-    );
-  });
+    }
+  );
 
   return [
     ...agrupados.entries()
-  ].map(
-    ([producto, cantidad]) => ({
-      producto,
-      cantidad
-    })
-  );
+  ]
+    .map(
+      (
+        [
+          producto,
+          cantidad
+        ]
+      ) => ({
+        producto,
+        cantidad
+      })
+    );
 }
 
 
@@ -370,7 +504,7 @@ function generarTextoReporteWhatsapp() {
     );
 
   const canjes =
-    obtenerCantidadCanjesDeHoy();
+    obtenerCanjesDeHoy();
 
   const bloques = [
     `Fecha: ${formatearFechaReporte()}`,
@@ -392,7 +526,12 @@ function generarTextoReporteWhatsapp() {
   ];
 
   productos.forEach(
-    ({ producto, cantidad }) => {
+    (
+      {
+        producto,
+        cantidad
+      }
+    ) => {
       const piezas =
         cantidad === 1
           ? "pieza"
@@ -405,8 +544,19 @@ function generarTextoReporteWhatsapp() {
     }
   );
 
+  let bloqueCanje =
+    `Canje\n` +
+    `#${canjes.cantidad}`;
+
+  if (
+    canjes.detalle
+  ) {
+    bloqueCanje +=
+      `\n${canjes.detalle}`;
+  }
+
   bloques.push(
-    `Canje\n#${canjes}`
+    bloqueCanje
   );
 
   return bloques.join(
@@ -454,7 +604,9 @@ async function copiarReporteWhatsapp() {
     ) {
       await navigator
         .clipboard
-        .writeText(texto);
+        .writeText(
+          texto
+        );
 
     } else {
       copiarTextoConMetodoAlternativo(
@@ -466,7 +618,9 @@ async function copiarReporteWhatsapp() {
       "Reporte copiado. Ya puedes pegarlo en WhatsApp."
     );
 
-  } catch (error) {
+  } catch (
+    error
+  ) {
     console.error(
       "No fue posible copiar el reporte:",
       error

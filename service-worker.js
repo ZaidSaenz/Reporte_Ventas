@@ -12,7 +12,7 @@
 // ============================================================
 
 const NOMBRE_CACHE =
-  "reporte-ventas-tuny-ancla-v8";
+  "reporte-ventas-tuny-ancla-v9";
 
 const ARCHIVOS_APP = [
   "./",

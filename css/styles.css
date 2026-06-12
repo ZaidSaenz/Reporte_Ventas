@@ -815,3 +815,73 @@ input:focus {
     grid-template-columns: 1fr;
   }
 }
+/* ==========================================================
+   DETALLE LIBRE DE CANJES
+========================================================== */
+
+.detalle-canje {
+  margin:
+    10px
+    0
+    14px;
+}
+
+.detalle-canje textarea {
+  width:
+    100%;
+
+  min-height:
+    82px;
+
+  padding:
+    10px;
+
+  color:
+    var(--texto);
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.16
+    );
+
+  border-radius:
+    10px;
+
+  outline:
+    none;
+
+  background:
+    rgba(
+      0,
+      0,
+      0,
+      0.35
+    );
+
+  font:
+    inherit;
+
+  resize:
+    vertical;
+}
+
+.detalle-canje textarea:focus {
+  border-color:
+    var(--fucsia-claro);
+
+  box-shadow:
+    0
+    0
+    0
+    3px
+    rgba(
+      255,
+      77,
+      184,
+      0.16
+    );
+}

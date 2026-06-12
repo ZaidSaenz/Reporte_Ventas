@@ -169,10 +169,12 @@ function obtenerDatosGeneralesParaPdf() {
 
       demo:
         "",
-      
+
+      supervisor:
+        "",
+
       horario:
         ""
-
     };
   }
 
@@ -188,6 +190,9 @@ function obtenerDatosGeneralesParaPdf() {
 
     demo:
       datos.demo || "",
+
+    supervisor:
+      datos.supervisor || "",
 
     horario:
       datos.horario || ""
@@ -670,6 +675,28 @@ async function construirPdfTuny() {
 
       ancho:
         112
+    }
+  );
+  
+  dibujarTextoAjustado(
+    pagina,
+    fuente,
+    datos.supervisor,
+    {
+      x:
+        192,
+
+      y:
+        649,
+
+      ancho:
+        88,
+
+      tamanoMaximo:
+        5.9,
+
+      tamanoMinimo:
+        4.2
     }
   );
 
