@@ -1,0 +1,817 @@
+:root {
+  --fucsia: #d10082;
+  --fucsia-claro: #ff4db8;
+  --fucsia-oscuro: #94005d;
+
+  --fondo: #08090a;
+  --panel: rgba(19, 21, 23, 0.96);
+  --panel-secundario: rgba(32, 35, 38, 0.98);
+
+  --borde: rgba(255, 255, 255, 0.1);
+
+  --texto: #ffffff;
+  --texto-suave: #b8bec4;
+
+  --error: #ffb4b4;
+  --correcto: #bcf5cf;
+
+  --sombra: 0 14px 35px rgba(0, 0, 0, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--fondo);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+
+  color: var(--texto);
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  background-color: var(--fondo);
+
+  /* Fondo oscuro con detalles grises discretos */
+  background-image:
+    radial-gradient(
+      circle at 18px 18px,
+      rgba(255, 255, 255, 0.035) 1.2px,
+      transparent 1.4px
+    ),
+    radial-gradient(
+      circle at 52px 46px,
+      rgba(255, 255, 255, 0.022) 1px,
+      transparent 1.3px
+    ),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.012) 25%,
+      transparent 25%
+    );
+
+  background-size:
+    72px 72px,
+    88px 88px,
+    48px 48px;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* ==========================================================
+   ENCABEZADO
+========================================================== */
+
+.encabezado-app {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--fucsia),
+      var(--fucsia-oscuro)
+    );
+
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.encabezado-contenido,
+.contenedor-app {
+  width: min(100% - 24px, 820px);
+  margin: 0 auto;
+}
+
+.encabezado-contenido {
+  padding: 16px 0 18px;
+}
+
+.encabezado-etiqueta,
+.subtitulo {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 0.76rem;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+
+  font-size: clamp(1.28rem, 5vw, 1.8rem);
+  line-height: 1.15;
+}
+
+h2 {
+  margin: 4px 0 0;
+
+  font-size: 1.2rem;
+}
+
+/* ==========================================================
+   CONTENIDO PRINCIPAL
+========================================================== */
+
+.contenedor-app {
+  display: grid;
+  gap: 14px;
+
+  padding: 16px 0 32px;
+}
+
+.panel {
+  padding: 15px;
+
+  overflow: hidden;
+
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+
+  background: var(--panel);
+
+  box-shadow: var(--sombra);
+}
+
+.titulo-seccion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 12px;
+}
+
+/* ==========================================================
+   CAPTURA DE PRODUCTOS
+========================================================== */
+
+.lista-productos {
+  display: grid;
+  gap: 10px;
+}
+
+.fila-producto {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    118px
+    78px
+    auto;
+
+  gap: 8px;
+
+  align-items: end;
+
+  padding: 10px;
+
+  border: 1px solid var(--borde);
+  border-radius: 13px;
+
+  background: var(--panel-secundario);
+}
+
+.campo {
+  min-width: 0;
+}
+
+.campo label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: var(--texto-suave);
+
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+select,
+input {
+  width: 100%;
+  min-height: 44px;
+
+  color: var(--texto);
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+
+  outline: none;
+
+  background: rgba(0, 0, 0, 0.35);
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+select {
+  padding: 0 36px 0 11px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+input {
+  padding: 0 10px;
+}
+
+select:focus,
+input:focus {
+  border-color: var(--fucsia-claro);
+
+  box-shadow:
+    0 0 0 3px rgba(255, 77, 184, 0.16);
+}
+
+/* ==========================================================
+   CAMPO DE PRECIO
+========================================================== */
+
+.entrada-moneda {
+  display: grid;
+
+  grid-template-columns: auto 1fr;
+
+  align-items: center;
+
+  min-height: 44px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.entrada-moneda:focus-within {
+  border-color: var(--fucsia-claro);
+
+  box-shadow:
+    0 0 0 3px rgba(255, 77, 184, 0.16);
+}
+
+.entrada-moneda span {
+  padding-left: 10px;
+
+  color: var(--texto-suave);
+}
+
+.entrada-moneda input {
+  min-height: 42px;
+
+  border: 0;
+
+  background: transparent;
+}
+
+.entrada-moneda input:focus {
+  box-shadow: none;
+}
+
+.invalido,
+.entrada-moneda.invalido {
+  border-color: var(--error);
+}
+
+/* ==========================================================
+   BOTONES
+========================================================== */
+
+.btn,
+.btn-quitar {
+  min-height: 44px;
+
+  border: 0;
+  border-radius: 11px;
+
+  color: var(--texto);
+
+  font-weight: 800;
+}
+
+.btn {
+  width: 100%;
+
+  margin-top: 12px;
+  padding: 11px 14px;
+}
+
+.btn-principal {
+  min-height: 52px;
+
+  font-size: 1.03rem;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--fucsia),
+      var(--fucsia-oscuro)
+    );
+}
+
+.btn-secundario {
+  border: 1px solid rgba(255, 77, 184, 0.45);
+
+  background: rgba(209, 0, 130, 0.14);
+}
+
+.btn-quitar {
+  min-height: 44px;
+
+  padding: 0 10px;
+
+  color: #ffd3d3;
+
+  background: rgba(181, 39, 39, 0.2);
+}
+
+/* ==========================================================
+   TOTAL DE LA VENTA
+========================================================== */
+
+.total-captura {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-top: 14px;
+  padding: 11px 12px;
+
+  border-radius: 11px;
+
+  color: var(--texto-suave);
+
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.total-captura strong {
+  color: var(--texto);
+
+  font-size: 1.12rem;
+}
+
+/* ==========================================================
+   MENSAJES
+========================================================== */
+
+.mensaje-app {
+  min-height: 20px;
+
+  margin: 10px 2px 0;
+
+  color: var(--correcto);
+
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.mensaje-app.error {
+  color: var(--error);
+}
+
+.texto-ayuda,
+.sin-registros {
+  margin-bottom: 10px;
+
+  color: var(--texto-suave);
+
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* ==========================================================
+   PRODUCTOS RECIENTES
+========================================================== */
+
+.productos-recientes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
+.tarjeta-reciente {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto;
+
+  grid-template-areas:
+    "nombre accion"
+    "precio accion";
+
+  align-items: center;
+
+  gap: 3px 10px;
+
+  width: 100%;
+  min-width: 0;
+
+  padding: 9px 10px;
+
+  text-align: left;
+
+  color: var(--texto);
+
+  border: 1px solid rgba(255, 77, 184, 0.25);
+  border-radius: 9px;
+
+  background: rgba(209, 0, 130, 0.08);
+}
+
+.tarjeta-reciente:hover,
+.tarjeta-reciente:focus-visible {
+  border-color: var(--fucsia-claro);
+
+  background: rgba(209, 0, 130, 0.17);
+}
+
+.tarjeta-reciente-nombre {
+  grid-area: nombre;
+
+  display: block;
+
+  overflow: hidden;
+
+  color: var(--texto);
+
+  font-size: 0.86rem;
+  font-weight: 800;
+  line-height: 1.2;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tarjeta-reciente-precio {
+  grid-area: precio;
+
+  display: block;
+
+  margin: 0;
+
+  color: var(--texto-suave);
+
+  font-size: 0.76rem;
+}
+
+.tarjeta-reciente-accion {
+  grid-area: accion;
+
+  display: block;
+
+  margin: 0;
+
+  color: var(--fucsia-claro);
+
+  font-size: 0.78rem;
+  font-weight: 900;
+
+  white-space: nowrap;
+} 
+
+/* ==========================================================
+   RESUMEN DEL DÍA
+========================================================== */
+
+.resumen-dia {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 8px;
+
+  margin-bottom: 12px;
+}
+
+.resumen-item {
+  padding: 10px 8px;
+
+  border-radius: 10px;
+
+  text-align: center;
+
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.resumen-item strong,
+.resumen-item span {
+  display: block;
+}
+
+.resumen-item strong {
+  font-size: 1rem;
+}
+
+.resumen-item span {
+  margin-top: 5px;
+
+  color: var(--texto-suave);
+
+  font-size: 0.74rem;
+}
+
+/* ==========================================================
+   HISTORIAL
+========================================================== */
+
+.historial-dia {
+  display: grid;
+  gap: 9px;
+}
+
+.venta-historial {
+  padding: 10px;
+
+  border: 1px solid var(--borde);
+  border-radius: 11px;
+
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.venta-historial-encabezado {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 7px;
+}
+
+.venta-historial-hora {
+  color: var(--texto-suave);
+
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.venta-historial-total {
+  font-weight: 900;
+}
+
+.venta-productos {
+  display: grid;
+  gap: 4px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.venta-productos li {
+  color: #e7e7e7;
+
+  font-size: 0.86rem;
+  line-height: 1.34;
+}
+
+.btn-borrar-venta {
+  margin-top: 9px;
+  padding: 7px 9px;
+
+  color: #ffd3d3;
+
+  border: 1px solid rgba(255, 211, 211, 0.16);
+  border-radius: 8px;
+
+  background: transparent;
+
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.oculto {
+  display: none;
+}
+
+/* ==========================================================
+   TELÉFONOS
+========================================================== */
+
+@media (max-width: 680px) {
+  .fila-producto {
+    grid-template-columns:
+      minmax(0, 1fr)
+      82px
+      74px;
+  }
+
+  .campo-producto {
+    grid-column: 1 / -1;
+  }
+
+  .btn-quitar {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ==========================================================
+   CANJES
+========================================================== */
+
+.canjes-control {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin: 14px 0;
+  padding: 11px;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 11px;
+
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.canjes-etiqueta,
+.contador-canjes {
+  display: block;
+}
+
+.canjes-etiqueta {
+  color: var(--texto-suave);
+
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.contador-canjes {
+  margin-top: 3px;
+
+  color: var(--texto);
+
+  font-size: 1.45rem;
+}
+
+.canjes-botones {
+  display: flex;
+  gap: 7px;
+}
+
+.btn-canje,
+.btn-canje-secundario {
+  width: auto;
+
+  margin: 0;
+  padding: 9px 11px;
+}
+
+.btn-canje {
+  min-width: 92px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--fucsia),
+      var(--fucsia-oscuro)
+    );
+}
+
+.btn-canje-secundario {
+  color: var(--texto-suave);
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.btn-canje-secundario:disabled {
+  cursor: default;
+
+  opacity: 0.38;
+}
+
+@media (max-width: 450px) {
+  .canjes-control {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .canjes-botones {
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .btn-canje,
+  .btn-canje-secundario {
+    width: 100%;
+  }
+}
+/* ==========================================================
+   DATOS GENERALES DEL REPORTE
+========================================================== */
+
+.datos-reporte-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+}
+
+.campo-region {
+  grid-column: 1 / -1;
+}
+
+
+/* ==========================================================
+   GENERAR Y COMPARTIR PDF
+========================================================== */
+
+.panel-exportar-pdf {
+  margin-top: 2px;
+}
+
+.acciones-pdf {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 9px;
+}
+
+.btn-enlace {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+}
+
+.mensaje-pdf {
+  min-height: 20px;
+
+  margin: 10px 2px 0;
+
+  color: var(--correcto);
+
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.mensaje-pdf.error {
+  color: var(--error);
+}
+
+
+/* ==========================================================
+   AJUSTES PARA TELÉFONO
+========================================================== */
+
+@media (max-width: 520px) {
+  .datos-reporte-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .campo-region {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 430px) {
+  .acciones-pdf {
+    grid-template-columns: 1fr;
+  }
+}

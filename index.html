@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#d10082"
+  >
+
+  <title>
+    Reporte de ventas Tuny-Ancla
+  </title>
+
+  <link
+    rel="manifest"
+    href="./manifest.json"
+  >
+
+  <link
+    rel="stylesheet"
+    href="./css/styles.css"
+  >
+</head>
+
+<body>
+  <!-- =====================================================
+       ENCABEZADO
+  ====================================================== -->
+  <header class="encabezado-app">
+    <div class="encabezado-contenido">
+      <p class="encabezado-etiqueta">
+        Captura rápida
+      </p>
+
+      <h1>
+        Reporte de ventas Tuny-Ancla
+      </h1>
+    </div>
+  </header>
+
+  <main class="contenedor-app">
+    <!-- =====================================================
+         DATOS GENERALES DEL REPORTE
+    ====================================================== -->
+    <section
+      class="panel"
+      aria-labelledby="titulo-datos-reporte"
+    >
+      <div class="titulo-seccion">
+        <div>
+          <p class="subtitulo">
+            Solo se escriben una vez
+          </p>
+
+          <h2 id="titulo-datos-reporte">
+            Datos del reporte
+          </h2>
+        </div>
+      </div>
+
+      <p class="texto-ayuda">
+        Estos datos quedarán guardados en este teléfono.
+      </p>
+
+      <div class="datos-reporte-grid">
+        <div class="campo">
+          <label for="input-tienda">
+            Tienda
+          </label>
+
+          <input
+            id="input-tienda"
+            type="text"
+            autocomplete="off"
+            placeholder="Ej. Florido La Mesa"
+          >
+        </div>
+
+        <div class="campo">
+          <label for="input-demo">
+            Demo
+          </label>
+
+          <input
+            id="input-demo"
+            type="text"
+            autocomplete="off"
+            placeholder="Nombre de la demovendedora"
+          >
+        </div>
+
+        <div class="campo campo-region">
+          <label for="input-region">
+            Región
+          </label>
+
+          <input
+            id="input-region"
+            type="text"
+            autocomplete="off"
+            placeholder="Ej. Tijuana B.C."
+          >
+        </div>
+      </div>
+    </section>
+    <div class="campo campo-region">
+  <label for="input-horario">
+    Horario
+  </label>
+
+  <input
+    id="input-horario"
+    type="text"
+    autocomplete="off"
+    placeholder="Ej. 10:00 a.m. - 6:00 p.m."
+  >
+</div>
+
+    <!-- =====================================================
+         NUEVA VENTA
+    ====================================================== -->
+    <section
+      class="panel panel-captura"
+      aria-labelledby="titulo-nueva-venta"
+    >
+      <div class="titulo-seccion">
+        <div>
+          <p class="subtitulo">
+            Registro del día
+          </p>
+
+          <h2 id="titulo-nueva-venta">
+            Nueva venta
+          </h2>
+        </div>
+      </div>
+
+      <div
+        id="lista-productos"
+        class="lista-productos"
+      ></div>
+
+      <button
+        id="btn-agregar-producto"
+        class="btn btn-secundario"
+        type="button"
+      >
+        + Agregar producto
+      </button>
+
+      <div class="total-captura">
+        <span>
+          Total de esta venta
+        </span>
+
+        <strong id="total-captura">
+          $0.00
+        </strong>
+      </div>
+
+      <button
+        id="btn-guardar-venta"
+        class="btn btn-principal"
+        type="button"
+      >
+        Guardar venta
+      </button>
+
+      <p
+        id="mensaje-app"
+        class="mensaje-app"
+        aria-live="polite"
+      ></p>
+    </section>
+
+    <!-- =====================================================
+         PRODUCTOS RECIENTES
+    ====================================================== -->
+    <section
+      id="seccion-recientes"
+      class="panel oculto"
+      aria-labelledby="titulo-recientes"
+    >
+      <div class="titulo-seccion">
+        <div>
+          <p class="subtitulo">
+            Para vender más rápido
+          </p>
+
+          <h2 id="titulo-recientes">
+            Productos recientes
+          </h2>
+        </div>
+      </div>
+
+      <p class="texto-ayuda">
+        Toca una tarjeta para registrar una pieza más del mismo producto.
+      </p>
+
+      <div
+        id="productos-recientes"
+        class="productos-recientes"
+      ></div>
+    </section>
+
+    <!-- =====================================================
+         CONSULTA RÁPIDA
+    ====================================================== -->
+    <section
+      class="panel"
+      aria-labelledby="titulo-consulta"
+    >
+      <div class="titulo-seccion">
+        <div>
+          <p class="subtitulo">
+            Listo para enviar
+          </p>
+
+          <h2 id="titulo-consulta">
+            Consulta rápida
+          </h2>
+        </div>
+      </div>
+
+      <div
+        id="resumen-dia"
+        class="resumen-dia"
+      ></div>
+
+      <!-- ===================================================
+           CANJES
+      ==================================================== -->
+      <div class="canjes-control">
+        <div>
+          <span class="canjes-etiqueta">
+            Canjes registrados
+          </span>
+
+          <strong
+            id="contador-canjes"
+            class="contador-canjes"
+          >
+            0
+          </strong>
+        </div>
+
+        <div class="canjes-botones">
+          <button
+            id="btn-agregar-canje"
+            class="btn btn-canje"
+            type="button"
+          >
+            + Canje
+          </button>
+
+          <button
+            id="btn-quitar-canje"
+            class="btn btn-canje-secundario"
+            type="button"
+          >
+            Quitar uno
+          </button>
+        </div>
+      </div>
+
+      <!-- ===================================================
+           TEXTO PARA WHATSAPP
+      ==================================================== -->
+      <label
+        class="etiqueta-reporte"
+        for="reporte-whatsapp"
+      >
+        Texto listo para WhatsApp
+      </label>
+
+      <textarea
+        id="reporte-whatsapp"
+        class="reporte-whatsapp"
+        rows="18"
+        readonly
+      ></textarea>
+
+      <button
+        id="btn-copiar-reporte"
+        class="btn btn-principal"
+        type="button"
+      >
+        Copiar reporte
+      </button>
+
+      <!-- ===================================================
+           HISTORIAL DESPLEGABLE
+      ==================================================== -->
+      <details class="detalle-historial">
+        <summary>
+          Ver o borrar ventas capturadas
+        </summary>
+
+        <div
+          id="historial-dia"
+          class="historial-dia"
+        ></div>
+      </details>
+    </section>
+
+    <!-- =====================================================
+         GENERAR REPORTE PDF
+    ====================================================== -->
+    <section
+      class="panel panel-exportar-pdf"
+      aria-labelledby="titulo-exportar-pdf"
+    >
+      <div class="titulo-seccion">
+        <div>
+          <p class="subtitulo">
+            Formato oficial
+          </p>
+
+          <h2 id="titulo-exportar-pdf">
+            Reporte diario en PDF
+          </h2>
+        </div>
+      </div>
+
+      <p class="texto-ayuda">
+        Se llenará automáticamente con la información disponible de las ventas registradas hoy.
+      </p>
+
+      <button
+        id="btn-generar-pdf"
+        class="btn btn-principal"
+        type="button"
+      >
+        Generar reporte PDF
+      </button>
+
+      <div
+        id="acciones-pdf"
+        class="acciones-pdf oculto"
+      >
+        <a
+          id="btn-descargar-pdf"
+          class="btn btn-secundario btn-enlace"
+          href="#"
+          download
+        >
+          Descargar PDF
+        </a>
+
+        <button
+          id="btn-compartir-pdf"
+          class="btn btn-secundario"
+          type="button"
+        >
+          Compartir PDF
+        </button>
+      </div>
+
+      <p
+        id="mensaje-pdf"
+        class="mensaje-pdf"
+        aria-live="polite"
+      ></p>
+    </section>
+  </main>
+
+  <!-- =====================================================
+       PLANTILLA PARA CREAR RENGLONES DE PRODUCTOS
+  ====================================================== -->
+  <template id="plantilla-fila-producto">
+    <article class="fila-producto">
+      <div class="campo campo-producto">
+        <label>
+          Producto
+        </label>
+
+        <select class="input-producto">
+          <option value="">
+            Elige un producto
+          </option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>
+          Precio
+        </label>
+
+        <div class="entrada-moneda">
+          <span>
+            $
+          </span>
+
+          <input
+            class="input-precio"
+            type="text"
+            inputmode="decimal"
+            autocomplete="off"
+            placeholder="0.00"
+            aria-label="Precio"
+          >
+        </div>
+      </div>
+
+      <div class="campo campo-cantidad">
+        <label>
+          Cantidad
+        </label>
+
+        <input
+          class="input-cantidad"
+          type="text"
+          inputmode="numeric"
+          autocomplete="off"
+          value="1"
+          aria-label="Cantidad"
+        >
+      </div>
+
+      <button
+        class="btn-quitar"
+        type="button"
+        aria-label="Quitar producto"
+      >
+        Quitar
+      </button>
+    </article>
+  </template>
+
+  <!-- =====================================================
+       ARCHIVOS JAVASCRIPT
+       
+       El orden es importante.
+  ====================================================== -->
+  <script
+    src="./assets/vendor/pdf-lib.min.js"
+    defer
+  ></script>
+
+  <script
+    src="./js/catalogo.js"
+    defer
+  ></script>
+
+  <script
+    src="./js/almacenamiento.js"
+    defer
+  ></script>
+
+  <script
+    src="./js/reporte.js"
+    defer
+  ></script>
+
+  <script
+    src="./js/whatsapp.js"
+    defer
+  ></script>
+
+  <script
+    src="./js/pdf.js"
+    defer
+  ></script>
+
+  <script
+    src="./js/app.js"
+    defer
+  ></script>
+</body>
+</html>
