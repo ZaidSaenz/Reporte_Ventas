@@ -545,7 +545,7 @@ function dibujarTotalCanjes(
         545,
 
       y:
-        526,
+        530,
 
       ancho:
         63.4,
