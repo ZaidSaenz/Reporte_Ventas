@@ -542,7 +542,7 @@ function dibujarTotalCanjes(
     ),
     {
       x:
-        492,
+        545,
 
       y:
         526,
@@ -554,7 +554,7 @@ function dibujarTotalCanjes(
         8,
 
       alineacion:
-        "centro"
+        "Izquierda"
     }
   );
 }
